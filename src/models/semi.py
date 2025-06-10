@@ -1,3 +1,5 @@
+"""Semi-supervised label spreading using BERT embeddings."""
+
 import json
 import nltk
 from matplotlib import pyplot as plt
@@ -29,8 +31,8 @@ texts_raw = [d["text"] for d in train_data]
 y_true = [d["label"] for d in train_data]
 
 # --- Calcular palabras más frecuentes eliminando stopwords ---
-most_common_words = most_common_words(texts_raw, stop_words)
-custom_stopwords = stop_words.union(set(most_common_words))
+common_words = most_common_words(texts_raw, stop_words)
+custom_stopwords = stop_words.union(set(common_words))
 
 
 texts = clean_texts(texts_raw, custom_stopwords)

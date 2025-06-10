@@ -1,3 +1,5 @@
+"""Simple neural network text classifier using TF-IDF."""
+
 import json
 import re
 from collections import Counter
@@ -36,14 +38,8 @@ y_test = [d["label"] for d in test_data]
 
 
 print("Calculando palabras más comunes para eliminación...")
-all_tokens = []
-for text in X_train_raw:
-    tokens = re.findall(r"\b\w+\b", text.lower())
-    filtered = [t for t in tokens if t not in stop_words]
-    all_tokens.extend(filtered)
-
-most_common_words = most_common_words(X_train_raw, stop_words)
-custom_stopwords = stop_words.union(set(most_common_words))
+common_words = most_common_words(X_train_raw, stop_words)
+custom_stopwords = stop_words.union(set(common_words))
 
 
 

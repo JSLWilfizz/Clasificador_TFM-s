@@ -1,3 +1,5 @@
+"""Baseline KNN text classifier."""
+
 import json
 import re
 from collections import Counter
@@ -45,9 +47,9 @@ y_test = [d["label"] for d in test_data]
 
 # --- Calcular palabras más comunes eliminando stopwords ---
 print("Calculando palabras más comunes para eliminación...")
-most_common_words = most_common_words(X_train_raw, stop_words)
+common_words = most_common_words(X_train_raw, stop_words)
 
-custom_stopwords = stop_words.union(set(most_common_words))
+custom_stopwords = stop_words.union(set(common_words))
 
 X_train = clean_texts(X_train_raw, custom_stopwords)
 X_test = clean_texts(X_test_raw, custom_stopwords)

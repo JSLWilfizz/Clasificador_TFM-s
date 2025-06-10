@@ -1,3 +1,5 @@
+"""SVM classifier with language-aware preprocessing."""
+
 import json
 import nltk
 import spacy

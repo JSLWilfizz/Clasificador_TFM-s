@@ -1,3 +1,5 @@
+"""Naive Bayes text classification baseline."""
+
 import json
 import re
 from collections import Counter
@@ -13,7 +15,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.pipeline import make_pipeline
 import seaborn as sns
 
-from src.utils.tools import clean_texts
+from src.utils.tools import clean_texts, most_common_words
 
 nltk.download('stopwords')
 
@@ -34,16 +36,8 @@ y_test = [d["label"] for d in test_data]
 
 # --- Calcular palabras más comunes eliminando stopwords ---
 print("📊 Calculando palabras más comunes para eliminación...")
-all_tokens = []
-for text in X_train_raw:
-    tokens = re.findall(r"\b\w+\b", text.lower())
-    filtered = [t for t in tokens if t not in stop_words]
-    all_tokens.extend(filtered)
-
-freqs = Counter(all_tokens)
-most_common_words = [word for word, _ in freqs.most_common(40)]
-print("🚫 Palabras adicionales eliminadas:", most_common_words)
-custom_stopwords = stop_words.union(set(most_common_words))
+common_words = most_common_words(X_train_raw, stop_words)
+custom_stopwords = stop_words.union(set(common_words))
 
 
 

@@ -1,3 +1,5 @@
+"""HDBSCAN clustering of text embeddings."""
+
 import json
 import nltk
 from matplotlib import pyplot as plt
@@ -16,7 +18,7 @@ import numpy as np
 import re
 import hdbscan
 
-from src.utils.tools import clean_texts
+from src.utils.tools import clean_texts, most_common_words
 
 nltk.download('stopwords')
 stop_words = set(stopwords.words('english')) | set(stopwords.words('spanish'))
@@ -32,16 +34,8 @@ y_true = [d["label"] for d in train_data]
 
 # --- Calcular palabras más comunes eliminando stopwords ---
 print("Calculando palabras más comunes para eliminación...")
-all_tokens = []
-for text in texts_raw:
-    tokens = re.findall(r"\b\w+\b", text.lower())
-    filtered = [t for t in tokens if t not in stop_words]
-    all_tokens.extend(filtered)
-
-freqs = Counter(all_tokens)
-most_common_words = [word for word, _ in freqs.most_common(30)]
-print("Palabras adicionales eliminadas:", most_common_words)
-custom_stopwords = stop_words.union(set(most_common_words))
+common_words = most_common_words(texts_raw, stop_words)
+custom_stopwords = stop_words.union(set(common_words))
 
 
 
