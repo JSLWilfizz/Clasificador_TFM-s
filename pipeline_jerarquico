@@ -1,0 +1,31 @@
+// Pipeline Jerárquico Materias → ODS
+digraph {
+	rankdir=LR size="8,5"
+	T [label="Texto (Abstract)"]
+	M [label="Modelo Nivel 1:
+Clasificación Materias"]
+	B [label="Modelo Nivel 2:
+Clasificación ODS
+(condicionado a Materia)"]
+	O [label="Salida:
+ODS predicho"]
+	T -> M
+	M -> B
+	B -> O
+	"ODS_Informática y Telecomunicaciones" [label="Modelo ODS para:
+\"Informática y Telecomunicaciones\""]
+	M -> "ODS_Informática y Telecomunicaciones"
+	"ODS_Informática y Telecomunicaciones" -> O
+	"ODS_Educación" [label="Modelo ODS para:
+\"Educación\""]
+	M -> "ODS_Educación"
+	"ODS_Educación" -> O
+	ODS_Otros [label="Modelo ODS para:
+\"Otros\""]
+	M -> ODS_Otros
+	ODS_Otros -> O
+	"ODS_Ingeniería Civil y Arquitectura" [label="Modelo ODS para:
+\"Ingeniería Civil y Arquitectura\""]
+	M -> "ODS_Ingeniería Civil y Arquitectura"
+	"ODS_Ingeniería Civil y Arquitectura" -> O
+}
