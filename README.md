@@ -18,3 +18,13 @@ Para ejecutar cualquier script se recomienda usar el modo módulo de Python, por
 ```bash
 python -m src.preprocessing.prepare_data
 ```
+
+## Entorno de trabajo
+
+Se recomienda crear un entorno virtual para aislar las dependencias del proyecto.
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
