@@ -16,7 +16,7 @@ from sklearn.metrics import classification_report
 from collections import defaultdict
 import nltk
 from unidecode import unidecode
-from tools import most_common_words, clean_texts
+from src.utils.tools import most_common_words, clean_texts
 
 ODS_LIST = [
     "Fin de la pobreza",

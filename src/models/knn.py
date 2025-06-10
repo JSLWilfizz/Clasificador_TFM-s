@@ -10,7 +10,7 @@ from sklearn.metrics import classification_report, accuracy_score
 from sklearn.preprocessing import LabelEncoder
 import matplotlib.pyplot as plt
 import seaborn as sns
-from tools import clean_texts, most_common_words
+from src.utils.tools import clean_texts, most_common_words
 
 
 # Matriz de confusión

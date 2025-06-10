@@ -16,7 +16,7 @@ import numpy as np
 import re
 import hdbscan
 
-from tools import clean_texts
+from src.utils.tools import clean_texts
 
 nltk.download('stopwords')
 stop_words = set(stopwords.words('english')) | set(stopwords.words('spanish'))

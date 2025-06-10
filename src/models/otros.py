@@ -17,7 +17,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout
 from tensorflow.keras.utils import to_categorical
 
-from tools import clean_texts,most_common_words
+from src.utils.tools import clean_texts,most_common_words
 
 
 def load_jsonl(path):
