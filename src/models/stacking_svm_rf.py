@@ -1,3 +1,5 @@
+"""Stacking classifier combining SVM and Random Forest."""
+
 import json
 import re
 import string

@@ -1,3 +1,5 @@
+"""Compares multiple stacking model combinations."""
+
 import json
 import re
 import string

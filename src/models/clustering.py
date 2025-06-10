@@ -1,3 +1,5 @@
+"""Agglomerative clustering using BERT embeddings."""
+
 import json
 import nltk
 import scipy.cluster.hierarchy as shc
@@ -10,6 +12,8 @@ from sklearn.preprocessing import LabelEncoder
 from collections import Counter
 from sentence_transformers import SentenceTransformer
 import re
+
+from src.utils.tools import clean_texts, most_common_words
 
 nltk.download('stopwords')
 spanish_stopwords = stopwords.words('spanish')
@@ -27,23 +31,12 @@ y_true = [d["label"] for d in train_data]
 
 # --- Contar palabras más frecuentes eliminando stopwords ---
 print("Calculando palabras más comunes...")
-all_tokens = []
-for text in texts_raw:
-    tokens = re.findall(r"\b\w+\b", text.lower())
-    filtered = [t for t in tokens if t not in stop_words]
-    all_tokens.extend(filtered)
-
-freqs = Counter(all_tokens)
-most_common_words = [word for word, _ in freqs.most_common(30)]
-print("Palabras adicionales a eliminar:", most_common_words)
+common_words = most_common_words(texts_raw, stop_words)
+print("Palabras adicionales a eliminar:", common_words)
 
 # --- Eliminar stopwords + palabras más frecuentes ---
-combined_stopwords = stop_words.union(most_common_words)
-texts = []
-for text in texts_raw:
-    tokens = re.findall(r"\b\w+\b", text.lower())
-    filtered = [t for t in tokens if t not in combined_stopwords]
-    texts.append(" ".join(filtered))
+combined_stopwords = stop_words.union(common_words)
+texts = clean_texts(texts_raw, combined_stopwords)
 
 # --- Embeddings con BERT ---
 print("Generando embeddings con BERT multilingüe...")
