@@ -10,7 +10,7 @@ import seaborn as sns
 from sklearn.preprocessing import LabelEncoder
 from bertopic import BERTopic
 
-from tools import clean_texts, most_common_words
+from src.utils.tools import clean_texts, most_common_words
 
 nltk.download('stopwords')
 stop_words = set(stopwords.words('english')) | set(stopwords.words('spanish'))

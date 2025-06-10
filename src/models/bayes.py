@@ -13,7 +13,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.pipeline import make_pipeline
 import seaborn as sns
 
-from tools import clean_texts
+from src.utils.tools import clean_texts
 
 nltk.download('stopwords')
 

@@ -6,7 +6,9 @@ import nltk
 import numpy as np
 from matplotlib import pyplot as plt
 from nltk.corpus import stopwords
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 import seaborn as sns
 
@@ -15,14 +17,12 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout
 from tensorflow.keras.utils import to_categorical
 
-from sentence_transformers import SentenceTransformer
+from src.utils.tools import clean_texts,most_common_words
 
-from tools import clean_texts, most_common_words
 
 def load_jsonl(path):
     with open(path, "r", encoding="utf-8") as f:
         return [json.loads(line) for line in f]
-
 nltk.download('stopwords')
 stop_words = set(stopwords.words('english')) | set(stopwords.words('spanish'))
 
@@ -30,26 +30,39 @@ train_data = load_jsonl("dataset_final/train.jsonl")
 test_data = load_jsonl("dataset_final/test.jsonl")
 
 X_train_raw = [d["text"] for d in train_data]
-y_train_raw = [d["label"] for d in train_data]
+y_train = [d["label"] for d in train_data]
 X_test_raw = [d["text"] for d in test_data]
-y_test_raw = [d["label"] for d in test_data]
+y_test = [d["label"] for d in test_data]
+
 
 print("Calculando palabras más comunes para eliminación...")
-most_common = most_common_words(X_train_raw, stop_words)
-custom_stopwords = stop_words.union(set(most_common))
+all_tokens = []
+for text in X_train_raw:
+    tokens = re.findall(r"\b\w+\b", text.lower())
+    filtered = [t for t in tokens if t not in stop_words]
+    all_tokens.extend(filtered)
+
+most_common_words = most_common_words(X_train_raw, stop_words)
+custom_stopwords = stop_words.union(set(most_common_words))
+
+
 
 X_train = clean_texts(X_train_raw, custom_stopwords)
 X_test = clean_texts(X_test_raw, custom_stopwords)
+
+X_train = [d["text"] for d in train_data]
+y_train_raw = [d["label"] for d in train_data]
+X_test = [d["text"] for d in test_data]
+y_test_raw = [d["label"] for d in test_data]
 
 label_encoder = LabelEncoder()
 y_train = label_encoder.fit_transform(y_train_raw)
 y_test = label_encoder.transform(y_test_raw)
 num_classes = len(label_encoder.classes_)
 
-print("🔄 Generando embeddings con BERT...")
-model_bert = SentenceTransformer("distiluse-base-multilingual-cased-v1")
-X_train_vec = model_bert.encode(X_train, show_progress_bar=True)
-X_test_vec = model_bert.encode(X_test, show_progress_bar=True)
+vectorizer = TfidfVectorizer(max_features=2000, stop_words='english')
+X_train_vec = vectorizer.fit_transform(X_train).toarray()
+X_test_vec = vectorizer.transform(X_test).toarray()
 
 y_train_cat = to_categorical(y_train, num_classes=num_classes)
 y_test_cat = to_categorical(y_test, num_classes=num_classes)

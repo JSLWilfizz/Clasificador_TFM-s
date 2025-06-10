@@ -14,7 +14,7 @@ from sklearn.metrics import classification_report
 from collections import defaultdict
 import nltk
 from unidecode import unidecode
-from tools import most_common_words, clean_texts
+from src.utils.tools import most_common_words, clean_texts
 
 # ----- Lista oficial de ODS -----
 ODS_LIST = [

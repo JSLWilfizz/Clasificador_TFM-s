@@ -14,7 +14,7 @@ import pandas as pd
 import numpy as np
 import re
 
-from tools import clean_texts, most_common_words
+from src.utils.tools import clean_texts, most_common_words
 
 nltk.download('stopwords')
 stop_words = set(stopwords.words('english')) | set(stopwords.words('spanish'))
